@@ -18,8 +18,8 @@ export function ItemListContainer({cat}){
         }, [id])
 
     return(
-        <section id="products-list" className='grid grid-cols-4 mx-20 gap-10 mt-5'>
-            {loading ? <Spinner/> : <>{products.map((e,i)=> (e.category == id || id == "home") && <ItemList itemDetail={e} key={i} />)}</>}
+        <section id="products-list" className='grid grid-cols-5 mx-20 gap-10 mt-5 justify-items-center max-xl:grid-cols-4 max-lg:grid-cols-3'>
+            {loading ? <Spinner center="spinner-center"/> : <>{products.map((e,i)=> (e.category == id || id == "home") && <ItemList itemDetail={e} key={i} />)}</>}
         </section>
     )
 }

@@ -6,7 +6,7 @@ export const borderRadius = "rounded-t-xl"
 export function ItemList({itemDetail}){
     const product = itemDetail
     return(
-        <div id={`product-${product.id}`} className={`bg-stone-950  flex flex-col justify-between items-center gap-5 basis-full w-56 pb-5 XD`} >
+        <div id={`product-${product.id}`} className={`bg-stone-950  flex flex-col justify-between items-center gap-5 basis-full w-56 pb-5`} >
             <Link to={`/item/${product.id}`} className={`h-56 w-full ${borderRadius}`}>
                 <picture className='w-full h-full'>
                     <img src={product.image} alt="" className={`h-full w-full object-cover object-top`} />

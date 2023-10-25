@@ -3,22 +3,27 @@ import { useParams } from "react-router-dom"
 import {useState, useEffect} from 'react'
 import { Counter } from '../Counter/Counter'
 import { Button } from '@nextui-org/react'
+import { Spinner } from '../Spinner/Spinner'
 
 export function ItemDetailContainer(){
     const {id} = useParams()
     const[product, setProduct] = useState({})
+    const [loading, setLoading] = useState(true)
 
     useEffect(()=>{
         fetch(`https://fakestoreapi.com/products/${id}`)
             .then(res=>res.json())
-            .then(json=>{setProduct(json)})  
-        }, [id])
+            .then(json=>{
+                setProduct(json)
+                setLoading(false)
+            })  
+        }, [id, loading])
     
     return(
-        <div className="bg-stone-950 grid place-content-center grid-cols-2 w-3/6 className='flex flex-col justify-between absolute top-2/4 left-2/4" style={{transform: "translate(-50%, -50%)"}} id='product-container'>
+        <div className={`bg-stone-950 grid grid-cols-2 w-3/6 absolute top-2/4 left-2/4 ${loading && "justify-items-center"}`} style={{transform: "translate(-50%, -50%)"}} id='product-container'>
             <div id={`product-image`} className={`bg-stone-950  flex flex-col justify-between items-center gap-5 basis-full w-56 place-items-center`} >
-                <picture className='w-full h-full'>
-                    <img src={product.image} alt="" className={`h-full w-full object-cover object-top`} />
+                <picture className={`w-full h-full ${loading && "flex justify-center items-center"}`}>
+                    { loading ? <Spinner/> : <img src={product.image} alt="" className={`h-full w-full object-cover object-top`} />}
                 </picture>
             </div>
             <div id="product-info" className='flex flex-col justify-between'>
