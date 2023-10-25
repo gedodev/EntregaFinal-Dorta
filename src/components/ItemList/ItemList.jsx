@@ -1,17 +1,23 @@
 import {Counter} from '../Counter/Counter'
-export function ItemList({id, itemDetail}){
+import {Link} from 'react-router-dom'
+
+export const borderRadius = "rounded-t-xl"
+
+export function ItemList({itemDetail}){
     const product = itemDetail
     return(
-        <div className='bg-stone-950  flex flex-col items-center justify-between rounded-md'>
-            <div id={`product-${id}`} className="flex flex-col justify-between items-center gap-5 p-5 basis-full" >
-                <div id={`productName-${id}`} className="font-bold text-center">
-                    <a href="#">{product.title}</a>
-                </div>
-                <div id={`productPrice-${id}`}>
-                    <p>{product.price}</p>
-                </div>
+        <div id={`product-${product.id}`} className={`bg-stone-950  flex flex-col justify-between items-center gap-5 basis-full w-56 pb-5 XD`} >
+            <Link to={`/item/${product.id}`} className={`h-56 w-full ${borderRadius}`}>
+                <picture className='w-full h-full'>
+                    <img src={product.image} alt="" className={`h-full w-full object-cover object-top`} />
+                </picture>
+            </Link>
+            <div id={`productName-${product.id}`} className="font-bold text-center">
+                <Link to={`/item${product.id}`}>{product.title}</Link>
             </div>
-            <Counter/>
+            <div id={`productPrice-${product.id}`}>
+                <p>USD {product.price}</p>
+            </div>
         </div>
     )
 }

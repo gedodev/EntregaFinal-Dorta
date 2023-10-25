@@ -14,7 +14,7 @@ export function Counter(){
     const classButton = "border border-white w-7 h-7 rounded-md hover:bg-neutral-900"
 
     return(
-        <div className="flex gap-6 p-3">
+        <div className="flex gap-6 items-center">
             <button onClick={plus} className={classButton}>+</button>
             <p>{count}</p>
             <button onClick={minus} className={classButton}>-</button>
