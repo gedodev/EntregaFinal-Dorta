@@ -4,11 +4,12 @@ import {NotFound} from './components/NotFound/NotFound'
 import{ItemDetailContainer} from './components/ItemDetailContainer/ItemDetailContainer'
 import {Footer} from './components/Footer/Footer'
 import {Routes, Route, BrowserRouter} from 'react-router-dom'
+import CartComponentContext from './context/CartContext/CartContext'
 
 
 function App() {
   return (
-    <>
+    <CartComponentContext>
     <BrowserRouter>
       <NavBar/>
       <main>
@@ -21,8 +22,7 @@ function App() {
       </main>
       <Footer/>
     </BrowserRouter>
-    
-    </>
+    </CartComponentContext>
   )
 }
 

@@ -3,7 +3,8 @@ import reactLogo from '../../assets/react.svg'
 import {Spinner} from '../Spinner/Spinner'
 import {Link, NavLink} from 'react-router-dom'
 import {useEffect, useState} from 'react'
-
+import { doc, getDoc, getFirestore, collection, getDocs, query,where, limit } from "firebase/firestore"
+import { db } from "../../firebase/client"
 
 export function NavBar(){
     const [categories,setCategory] = useState([])
@@ -12,14 +13,22 @@ export function NavBar(){
     // Upper case the first letter
     const capitalize = (w) => w = w.charAt(0).toUpperCase() + w.slice(1);
 
+    /* Items from firebase, for all the cloections*/ 
     useEffect(()=>{
-        fetch('https://fakestoreapi.com/products/categories')
-        .then(res=>res.json())
-        .then(json=>{
-            setCategory(json)
-            setLoading(false)
+        const productsRef = collection(db, "products")
+        // const productsRefFilters = query(
+        //     collection(db, "products"),
+        //     where("categoryid","==","Pantalones"),
+        //     limit(2)
+        // )
+        getDocs(productsRef)
+        .then((snapshot)=>{
+            setCategory([...new Set(snapshot.docs.map(doc=> doc.data().categoryid))])
         })
-    },[])
+        .finally(
+            setLoading(false),
+            )
+    }, [])
 
     return(
         <header>
@@ -39,4 +48,12 @@ export function NavBar(){
             
         </header>
     )
+}
+
+function deleteDuplicates(arr){
+    arr.forEach(e=>{
+        arr.splice(arr.indexOf(e),1)
+        arr.includes(e) ? deleteDuplicates(arr) : arr.push(e)
+    })
+    arr.sort()
 }

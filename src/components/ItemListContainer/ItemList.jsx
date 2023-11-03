@@ -1,4 +1,3 @@
-import {Counter} from '../Counter/Counter'
 import {Link} from 'react-router-dom'
 
 export const borderRadius = "rounded-t-xl"
@@ -13,7 +12,7 @@ export function ItemList({itemDetail}){
                 </picture>
             </Link>
             <div id={`productName-${product.id}`} className="font-bold text-center">
-                <Link to={`/item${product.id}`}>{product.title}</Link>
+                <Link to={`/item/${product.id}`}>{product.title}</Link>
             </div>
             <div id={`productPrice-${product.id}`}>
                 <p>USD {product.price}</p>

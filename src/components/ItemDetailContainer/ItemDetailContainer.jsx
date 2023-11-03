@@ -1,46 +1,56 @@
-import {borderRadius} from '../ItemList/ItemList'
 import { useParams } from "react-router-dom"
 import {useState, useEffect} from 'react'
-import { Counter } from '../Counter/Counter'
-import { Button } from '@nextui-org/react'
-import { Spinner } from '../Spinner/Spinner'
+import { ItemDetail } from "./ItemDetail"
+import CounterComponentContext,{CounterContext} from '../../context/CounterContext/CounterContext'
+import { doc, getDoc, getFirestore, collection, getDocs, query,where, limit } from "firebase/firestore"
+import { db } from "../../firebase/client"
 
 export function ItemDetailContainer(){
     const {id} = useParams()
-    const[product, setProduct] = useState({})
+    const[product, setProduct] = useState([])
     const [loading, setLoading] = useState(true)
 
+    /* Items from fakestorapi*/ 
+    // useEffect(()=>{
+    //     fetch(`https://fakestoreapi.com/products/${id}`)
+    //         .then(res=>res.json())
+    //         .then(json=>{
+    //             console.log(json)
+    //             setProduct(json)
+    //             setLoading(false)
+    //         })  
+    //     }, [id, loading])
+
+    /* Items from firebase, for only 1 item
     useEffect(()=>{
-        fetch(`https://fakestoreapi.com/products/${id}`)
-            .then(res=>res.json())
-            .then(json=>{
-                setProduct(json)
-                setLoading(false)
-            })  
-        }, [id, loading])
+        const productRef = doc(db, "products")
+        getDoc(productRef)
+        .then((snapshot)=>{
+            if(snapshot.exists()){
+                console.log({id: snapshot.id, ...snapshot.data()})
+            }
+        })
+    },)*/ 
+
+     /* Items from firebase, for all the cloections*/ 
+     useEffect(()=>{
+        const productDocRef = doc(db, "products", id);
+        // const productsRefFilters = query(
+        //     collection(db, "products"),
+        //     where("id","==",id)
+        // )
+        getDoc(productDocRef)
+        .then((snapshot)=>{
+            setProduct(snapshot.data())
+        })
+        .finally(setLoading(false))
+    }, [id, loading])
+
+    
     
     return(
-        <div className={`bg-stone-950 grid grid-cols-2 w-3/6 absolute top-2/4 left-2/4 ${loading && "justify-items-center"}`} style={{transform: "translate(-50%, -50%)"}} id='product-container'>
-            <div id={`product-image`} className={`bg-stone-950  flex flex-col justify-between items-center gap-5 basis-full w-56 place-items-center`} >
-                <picture className={`w-full h-full ${loading && "flex justify-center items-center"}`}>
-                    { loading ? <Spinner/> : <img src={product.image} alt="" className={`h-full w-full object-cover object-top`} />}
-                </picture>
-            </div>
-            <div id="product-info" className='flex flex-col justify-between'>
-                 <div id="product-title" className="font-bold text-center">
-                    <h1>{product.title}</h1>
-                </div>
-                <div id="product-description">
-                    <p className='py-5'>{product.description}</p>
-                </div>
-                <div id="product-add" className="text-center text flex justify-evenly p-2">
-                    <div id="product-price" className="text-center text flex items-center">
-                        <strong>USD {product.price}</strong>
-                    </div>
-                    <Counter/>
-                    <Button>Add To Cart</Button>
-                </div>
-            </div>
-        </div>
+        <CounterComponentContext>
+            <ItemDetail product={product} loading={loading}/>
+        </CounterComponentContext>
     )
 }
