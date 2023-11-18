@@ -3,12 +3,11 @@
     place-items:center;
   }
   .spinner{
-    border: 3px solid #13d5df;
     width: 2rem;
     height:2rem;
     border-radius: 50%;
-    border-right-color: transparent;
-    animation: rot 1s linear infinite;
+    /* border-right-color: transparent; */
+    animation: rot 1.2s linear infinite;
   }
 
   .spinner-center{

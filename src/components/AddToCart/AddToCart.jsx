@@ -5,13 +5,12 @@ import { CartContext } from '../../context/CartContext/CartContext'
 import { useEffect, useContext } from 'react'
 
 export function AddToCart({product}){
-    const {cartQ, setCartQ} = useContext(CartContext)
+    const {cartItems, setCartItems} = useContext(CartContext)
     const {quantity, setQuantity} = useContext(CounterContext)
-
     let price = product.price
     const addToCart = ()=>{
-        setCartQ(quantity + cartQ)
-        console.log(`Add To Cart. cartQ:${cartQ}, quantity:${quantity}`)
+        // product.quantity = quantity
+        setCartItems([...cartItems, product])
     }
 
     return(

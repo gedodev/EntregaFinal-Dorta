@@ -1,4 +1,4 @@
-import {ItemList} from './ItemList'
+import {ItemList} from '../ItemList/ItemList'
 import {Spinner} from '../Spinner/Spinner'
 import {useState,useEffect} from 'react'
 import { useParams } from 'react-router-dom'
@@ -9,15 +9,6 @@ export function ItemListContainer(){
     const [loading, setLoading] = useState(true)
     const [products,setProduct] = useState([])
     const {id="home"} = useParams()
-    // useEffect(()=>{
-    //     fetch('https://fakestoreapi.com/products')
-    //         .then(res=>res.json())
-    //         .then(json=>{    
-    //             setProduct(json)
-    //             setLoading(false)
-    //         })
-    //         .catch(error=>console.error(error))
-    //     }, [id])
 
      /* Items from firebase, for all the cloections*/ 
      useEffect(()=>{
@@ -31,7 +22,7 @@ export function ItemListContainer(){
         .then((snapshot)=>{
             setProduct(snapshot.docs.map(doc=>({id: doc.id, ...doc.data()})))
         })
-        .finally(setLoading(false))
+        .finally(()=>setLoading(false))
     }, [id])
 
     return(

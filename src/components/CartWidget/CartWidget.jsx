@@ -3,19 +3,20 @@ import {Badge} from "@nextui-org/react";
 import {CartIcon} from "./CartIcon";
 import { CartContext } from '../../context/CartContext/CartContext'
 import { useContext } from 'react'
+import { NavLink, useLocation } from "react-router-dom";
 
 export default function CartWidget() {
   const [isInvisible, setIsInvisible] = React.useState(false);
-  const {cartQ, setCartQ} = useContext(CartContext)
+  const {cartItems, setCartItems} = useContext(CartContext)
   useEffect(()=>{
-    cartQ == 0 ? setIsInvisible(true) : setIsInvisible(false)
-  },[cartQ])
+    cartItems == [] ? setIsInvisible(true) : setIsInvisible(false)
+  },[cartItems])
 
   return (
-    <div className="flex items-center gap-3">
-      <Badge color="danger" content={cartQ} isInvisible={isInvisible} shape="circle">
-        <CartIcon size={30} />
+    <NavLink to="/cart" className={`flex items-center gap-3`}>
+      <Badge color="danger" content={cartItems.length} isInvisible={isInvisible} shape="circle">
+        <CartIcon className={useLocation().pathname == '/cart' ? 'text-sky-400/100' : ""} size={30} />
       </Badge>
-    </div>
+    </NavLink>
   );
 }

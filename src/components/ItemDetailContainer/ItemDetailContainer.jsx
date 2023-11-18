@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import {useState, useEffect} from 'react'
-import { ItemDetail } from "./ItemDetail"
+import { ItemDetail } from "../ItemDetail/ItemDetail"
 import CounterComponentContext,{CounterContext} from '../../context/CounterContext/CounterContext'
 import { doc, getDoc, getFirestore, collection, getDocs, query,where, limit } from "firebase/firestore"
 import { db } from "../../firebase/client"
@@ -43,7 +43,7 @@ export function ItemDetailContainer(){
         .then((snapshot)=>{
             setProduct(snapshot.data())
         })
-        .finally(setLoading(false))
+        .finally(()=>setLoading(false))
     }, [id, loading])
 
     
